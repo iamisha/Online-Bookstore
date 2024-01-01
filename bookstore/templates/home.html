@@ -1,6 +1,91 @@
 {% extends 'base.html' %}
-{% load static %}
+
 
 {% block content %}
+{% load static %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="section-heading">
+                <div class="line-dec"></div>
+                <h1>Available Books</h1>
+            </div>
+        </div>
+    </div>
 
+    <!-- Filter Section -->
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <label for="genre-filter">Filter by Genre:</label>
+            <select id="genre-filter" class="form-control">
+                <option value="all">All Genres</option>
+                <option value="fiction">Fiction</option>
+                <option value="non-fiction">Non-Fiction</option>
+                <option value="mystery">Mystery</option>
+                <!-- Add more genres as needed -->
+            </select>
+        </div>
+    </div>
+
+
+    <div class="container-fluid p-0 m-0  
+                align-items-center  
+                justify-content-center d-flex" 
+            style="min-height: 100vh;"> 
+  
+        <!-- Row for the card-->
+        <div class="row w-100 p-0 w-0"> 
+            {% for book in book %}
+            <!-- Another column for card -->
+            <div class="col-lg-4 mb-2"> 
+                <div class="card  mx-auto" style="width:18rem;"> 
+                    <img class="card-img-top" src="{{book.cover_image.url}}"
+                            alt="Card image cap"> 
+  
+                    <div class="card-body"> 
+                        <h5 class="card-title"> 
+                            {{ book.title }}
+                        </h5> 
+
+                        <p class="card-text">Author: {{ book.author }}</p>
+  
+                        <p class="card-text"> 
+                            {{ book.description }}
+                        </p> 
+  
+                        <p class="card-text" style="color: orange; font-weight: bold;"> 
+                            Price: &#8377;{{ book.price }}
+                        </p> 
+  
+                   <center>
+  
+                        <a href="#" class="btn btn-primary">Buy Now</a>
+
+                    </center>
+                    </div> 
+                </div> 
+            </div> 
+            {% endfor %}
+        </div> 
+    </div> 
+
+    <!-- Book Listing Section -->
+    <div class="row">
+        {% for book in books %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <img src="{% static 'download.jpeg'%}" class="card-img-top" alt="{{ book.title }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ book.title }}</h5>
+                    <p class="card-text">Author: {{ book.author }}</p>
+                    <p class="card-text">Genre: {{ book.genre }}</p>
+                    <p class="card-text">Price: ${{ book.price }}</p>
+                    <p class="card-text">{{ book.description }}</p>
+                    <a href="#" class="btn btn-primary">Add to Cart</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}
