@@ -10,3 +10,6 @@ def home(request):
         'book':book,
     }
     return render(request, 'home.html', context)
+
+def login(request):
+    return render(request,'login.html')
