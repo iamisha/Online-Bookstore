@@ -106,12 +106,17 @@ body {
         </div>
     </div>
 
-
-    <form action="">
+    <center>
+    <form action="" method="POST">
+          {% csrf_token %}
+            
         <input type="text" placeholder="Search.." name="search" style="margin:auto; max-width: 350px; padding: 10px; border-radius: 10px;">
         <button type="submit" style="padding: 10px;border-radius: 10px;"><i class="fa fa-search"></i></button>
       </form>
       <br>
+    </center>
+
+
 
     <div class="container-fluid p-0 m-0  
                 align-items-center  
@@ -120,13 +125,51 @@ body {
   
         <!-- Row for the card-->
         <div class="row w-100 p-0 w-0"> 
+          {% if result %}
+            {% for book in result %}
+            <!-- Another column for card -->
+            <div class="col-lg-4 mb-2"> 
+                <div class="card  mx-auto" style="width:18rem;"> 
+                  <a href="" data-toggle="modal" data-target="#exampleModalLong" >
+                    <img class="card-img-top" src="{{book.cover_image.url}}"
+                            alt="Card image cap" width="100px" height="200px"> 
+                    </a>
+                    <div class="card-body"> 
+                        <h5 class="card-title"> 
+                            {{ book.title }}
+                        </h5> 
+
+                        <p class="card-text">Author: {{ book.author }}</p>
+
+                        <p class="card-text"> 
+                            {{ book.description }}
+                        </p> 
+  
+                        <p class="card-text" style="color: orange; font-weight: bold;"> 
+                            Price: &#8377;{{ book.price }}
+                        </p> 
+  
+                   <center>
+  
+                        <a href="#" class="btn btn-primary" style="    background: linear-gradient(#e96443, #904e95);">Buy Now</a>
+
+                    </center>
+                    </div> 
+                </div> 
+            </div> 
+            {% endfor %}
+
+            {% else %}
+
+            <!-- <center><h1>No Data Found!</h1></center> -->
             {% for book in book %}
             <!-- Another column for card -->
             <div class="col-lg-4 mb-2"> 
                 <div class="card  mx-auto" style="width:18rem;"> 
+                  <a href="" data-toggle="modal" data-target="#exampleModalLong"class="building-link"data-name="{{ book.title}}" data-description="{{ book.description}}">
                     <img class="card-img-top" src="{{book.cover_image.url}}"
                             alt="Card image cap" width="100px" height="200px"> 
-  
+                  </a>
                     <div class="card-body"> 
                         <h5 class="card-title"> 
                             {{ book.title }}
@@ -151,26 +194,42 @@ body {
                 </div> 
             </div> 
             {% endfor %}
+
+
+            {% endif %}
         </div> 
     </div> 
-
-    <!-- Book Listing Section -->
-    <div class="row">
-        {% for book in books %}
-        <div class="col-md-4 mb-4">
-            <div class="card">
-                <img src="{% static 'download.jpeg'%}" class="card-img-top" alt="{{ book.title }}">
-                <div class="card-body">
-                    <h5 class="card-title">{{ book.title }}</h5>
-                    <p class="card-text">Author: {{ book.author }}</p>
-                    <p class="card-text">Genre: {{ book.genre }}</p>
-                    <p class="card-text">Price: ${{ book.price }}</p>
-                    <p class="card-text">{{ book.description }}</p>
-                    <a href="#" class="btn btn-primary">Add to Cart</a>
-                </div>
-            </div>
-        </div>
-        {% endfor %}
-    </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="building-name"></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="building-description">
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- When a link is clicked, grab all the data values and pop them inro the modal -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+  $('.building-link').click(function(){
+      $('#building-name').html($(this).data('name'));
+      $('#building-description').html($(this).data('description'));
+      // $('#building-img').src($(this).data('img'));
+  });
+  </script>
+
 {% endblock %}

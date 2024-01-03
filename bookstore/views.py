@@ -2,11 +2,24 @@ from django.shortcuts import render, redirect
 from .models import *
 from django.contrib.auth.models import User
 from django.contrib import auth
+from django.db.models import Q
+
 
 # Create your views here.
 def home(request):
-    book = Book.objects.all()
+    if request.method == 'POST':
+        search = request.POST.get('search')
+        results = Book.objects.filter(Q(title=search))
 
+        context = {
+            'result': results,
+        }
+        return render(request,'home.html',context)
+
+
+
+        book = Book.objects.filter(title__icontains=search)
+    book = Book.objects.all()
 
     context = {
         'book':book,
