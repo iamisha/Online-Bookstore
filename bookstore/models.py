@@ -15,6 +15,8 @@ class Book(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
     description = models.TextField()
     cover_image = models.ImageField(upload_to='book_covers/')
+    publisher = models.CharField(max_length=500)
+    date = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.title

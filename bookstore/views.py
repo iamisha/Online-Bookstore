@@ -20,7 +20,7 @@ def login(request):
             auth.login(request, user)
             return redirect('home')
         else:
-            return render(request, 'login.html',{'error: Username or Password is incorrect!'})
+            return render(request, 'login.html',{'error': "Username or Password is incorrect!"})
         
     else:
         return render(request, 'login.html')
