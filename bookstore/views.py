@@ -44,7 +44,7 @@ def signup(request):
         if request.POST['password1'] == request.POST['password2']:
             try:
                 user = User.objects.get(username=request.POST['username'])
-                return render(request, 'signup.html', {'error': "Username is already taken"})
+                return render(request, 'signup.html', {'error': "Username is already taken!"})
             
             except User.DoesNotExist:
                 first_name = request.POST['first_name']
